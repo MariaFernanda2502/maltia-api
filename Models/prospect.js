@@ -1,18 +1,18 @@
 module.exports = (DB, type) => {
     return DB.define('prospecto',
     {
-    idProspecto: {
+    prospectId: {
         type: type.INTERGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    idUsuarioAsesor: {
+    userAdviserId: {
+        // Es foreign key
         type: type.STRING,
-        // Falta foreign key que hace referencia a ASESOR
     },
-    idTienda: {
+    storeId: {
+        // Es foreign key
         type: type.STRING,
-        // Falta foreign key que hace referencia a TIENDA
     },
     nombre: {
         type: type.STRING,
@@ -27,7 +27,6 @@ module.exports = (DB, type) => {
         noEmpty: true,
     },
     telefono: {
-        // ¿Con qué dato nos conviene trabajarlo: int o varchar?
         type: type.INTERGER,
         noEmpty: true,
         validate: {

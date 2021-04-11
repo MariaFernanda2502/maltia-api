@@ -1,13 +1,12 @@
 module.exports = (DB, type) => {
-    return DB.define('asesor',
+    return DB.define('adviser',
     {
-    idUsuario: {
+    userId: {
+        // Es foreign key
         type: type.STRING,
         primaryKey: true,
-        // Falta la foreign key referencia a USUARIO
     },
 }, {
     // Opción para permitir soft delete
     paranoid: true
-})
-}
+})}

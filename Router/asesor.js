@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-// const { asesor } = require('../BaseDatos');
+// const { adviser } = require('../database');
 
 
 

@@ -1,18 +1,18 @@
 module.exports = (DB, type) => {
     return DB.define('solicitud',
     {
-    idSolicitud: {
+    clientApplicationId: {
         type: type.INTERGER,
         primaryKey: true,
         autoIncrement: true,
     },
-    idUsuarioAsesor: {
+    userAdviserId: {
+        // Es foreign key
         type: type.STRING,
-        // Falta foreign key que referencia a ASESOR
     },
-    idUsuarioAnalista: {
+    userAnalystId: {
+        // Es foreign key
         type: type.STRING,
-        // Falta foreign key que referencia a ANALISTA
     },
     revisionMesa: {
         type: type.BOOLEAN,

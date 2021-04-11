@@ -5,9 +5,9 @@ module.exports = (DB, type) => {
         type: type.STRING,
         primaryKey: true,
     },
-    idUsuarioAsesor: {
-        type: type.STRING,
-         // Falta la foreign key referencia a ASESOR
+    userAdviserId: {
+        // Es una foreign key
+        type: type.STRING,  
     },
     direccion: {
         type: type.STRING,

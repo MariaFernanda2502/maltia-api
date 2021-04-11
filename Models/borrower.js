@@ -1,13 +1,13 @@
 module.exports = (DB, type) => {
     return DB.define('prestatario',
     {
-    idProspecto: {
+    prospectId: {
+        // Es foreign key
         type: type.INTERGER,
-        // Falta la foreign key referencia a PROSPECTO
     },
-    idSolicitud: {
+    clientApplicationId: {
+        // Es foreign key
         type: type.INTERGER,
-        // Falta foreign key referencia a SOLICITUD
     },
     numClienteZorro: {
         type: type.INTERGER,

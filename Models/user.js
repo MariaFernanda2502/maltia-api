@@ -1,7 +1,7 @@
 module.exports = (DB, type) => {
-    return DB.define('usuario',
+    return DB.define('user',
     {
-    idUsuario: {
+    userId: {
         type: type.STRING,
         primaryKey: true,
     },
