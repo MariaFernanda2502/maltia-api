@@ -40,8 +40,8 @@ module.exports = (DB, type) => {
     },
     estatus: {
         type: type.ENUM,
-        values: ['Aprobado', 'Rechazado', 'En proceso...'],
-        defaultValue: 'En proceso...',
+        values: ['Aprobado', 'Rechazado', 'En proceso'],
+        defaultValue: 'En proceso',
     },
     tipoCredito: {
         type: type.ENUM,
