@@ -1,18 +1,26 @@
 module.exports = (DB, type) => {
-    return DB.define('solicitud',
+    return DB.define('clientApplication',
     {
     clientApplicationId: {
-        type: type.INTERGER,
         primaryKey: true,
+        type: type.INTEGER,
         autoIncrement: true,
     },
     userAdviserId: {
-        // Es foreign key
+        foreignKey: true,
         type: type.STRING,
+        references: {
+            model: 'Adviser',
+            key: 'userId'
+        }
     },
     userAnalystId: {
-        // Es foreign key
+        foreignKey: true,
         type: type.STRING,
+        references: {
+            model: 'Analyst',
+            key: 'userId'
+        }
     },
     revisionMesa: {
         type: type.BOOLEAN,
@@ -24,16 +32,16 @@ module.exports = (DB, type) => {
         type: type.DATE,
     },
     antiguedad: {
-        type: type.INTERGER,
+        type: type.INTEGER,
     },
     creditoSolicitado: {
-        type: type.INTERGER,
+        type: type.INTEGER,
     },
     capacidadPago: {
-        type: type.INTERGER,
+        type: type.INTEGER,
     },
     creditoAutorizado: {
-        type: type.INTERGER,
+        type: type.INTEGER,
     },
     fechaAutorizacion: {
         type: type.DATE,

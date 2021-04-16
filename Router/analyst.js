@@ -1,7 +1,7 @@
 const express = require('express');
-const router = express.Router();
+const analyst = express.Router();
 // const { analyst } = require('../database');
 
 
 
-module.exports = router
+module.exports = analyst

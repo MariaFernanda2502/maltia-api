@@ -4,16 +4,17 @@ const cors = require('cors');
 const app = express(); //Crea la API
 const port = 5000; //Especifica el puerto
 
+// Import de las rutas
+const adminRouter = require('./Router/admin');
+const adviserRouter = require('./Router/analyst');
+const analystRouter = require('./Router/adviser');
+
 app.use(bodyParser.json());
 app.use(cors());
 
-const adminRouter = require('./Router/admin');
-const asesorRouter = require('./Router/analista');
-const analistaRouter = require('./Router/asesor');
-
 app.use('/admin', adminRouter);
-app.use('/asesor', asesorRouter);
-app.use('/analista', analistaRouter);
+app.use('/adviser', adviserRouter);
+app.use('/analyst', analystRouter);
 
 // Atrapa todos los errores
 app.use((err, req, res, next) => {

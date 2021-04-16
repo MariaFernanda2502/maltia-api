@@ -1,13 +1,17 @@
 module.exports = (DB, type) => {
-    return DB.define('tienda',
+    return DB.define('store',
     {
-    id: {
-        type: type.STRING,
+    storeId: {
         primaryKey: true,
+        type: type.STRING,
     },
     userAdviserId: {
-        // Es una foreign key
-        type: type.STRING,  
+        foreignKey: true,
+        type: type.STRING,
+        references: {
+            model: 'Adviser',
+            key: 'userId'
+        }
     },
     direccion: {
         type: type.STRING,

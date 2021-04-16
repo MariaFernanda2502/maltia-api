@@ -1,11 +1,15 @@
 const express = require('express');
-const router = express.Router();
-// const { analyst, adviser } = require('../database');
+const admin = express.Router();
+const { Adviser, Analyst } = require('../database');
+//const { DESC } = require('sequelize');
+
+//const PAGE_SIZE = 10;
+//const INITIAL_PAGE = 1;
 
 // ---------------------------------ANALISTA---------------------------------
 // Eliminar analista
 /*
-router.delete('eliminar-analista/:analistaId', async (req, res, next) => {
+router.delete('eliminar-analista/:analistaId', async(req, res, next) => {
     const { analistaId } = req.params;
 
     try {
@@ -63,18 +67,27 @@ router.post('/crear-analista', (req, res, next) => {
 })
 
 // Lista de analistas
-router.get('/lista-analista', (req, res, next) => {
-    analista.findAll({
-        paranoid: false,
+router.get('/lista-analista', async (req, res, next) => {
+    const page = Boolean(req.params.page) ? Number(req.query.page) : INITIAL_PAGE;
+    
+    const totalNumResults = await analista.count();
+    
+    Analyst.findAll({
+        offset: (page - 1) * PAGE_SIZE,
+        limit: PAGE_SIZE,
+        attributes: ['nombre', 'apellidoMaterno', 'apellidoPaterno'],
     })
-    .then((allUsers) => {
+    .then((allAnalyst) => {
         return res.status(200).json ({
-            data: allUsers
+            currentPage: page,
+            numResults: allUsers.length,
+            pages: Math.ceil(totalNumResults / PAGE_SIZE),
+            data: allAnalyst
         })
     })
     .catch((err) => next(err))
 })
-
-// ---------------------------------ASESOR---------------------------------
 */
-module.exports = router
+// ---------------------------------ASESOR---------------------------------
+
+module.exports = admin
