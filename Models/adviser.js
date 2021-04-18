@@ -6,7 +6,7 @@ module.exports = (DB, type) => {
         primaryKey: true,
         type: type.STRING,
         references: {
-            model: 'User',
+            model: 'employee',
             key: 'userId'
         }
     },

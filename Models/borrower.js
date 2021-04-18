@@ -6,7 +6,7 @@ module.exports = (DB, type) => {
         foreignKey: true,
         type: type.INTEGER,
         references: {
-            model: 'Prospect',
+            model: 'prospect',
             key: 'prospectId',
         }
     },
@@ -14,7 +14,7 @@ module.exports = (DB, type) => {
         foreignKey: true,
         type: type.INTEGER,
         references: {
-            model: 'ClientApplication',
+            model: 'clientapplication',
             key: 'clientApplicationId',
         }
     },

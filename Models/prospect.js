@@ -10,7 +10,7 @@ module.exports = (DB, type) => {
         foreignKey: true,
         type: type.STRING,
         references: {
-            model: 'Adviser',
+            model: 'adviser',
             key: 'userId',
         }
     },
@@ -18,7 +18,7 @@ module.exports = (DB, type) => {
         foreignKey: true,
         type: type.STRING,
         references: {
-            model: 'Store',
+            model: 'store',
             key: 'storeId',
         }
     },

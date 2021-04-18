@@ -2,7 +2,7 @@ require('dotenv').config();
 const { Sequelize } = require('sequelize');
 
 // IMPORTANDO ESQUEMAS
-const UserModel = require('./Models/user');
+const EmployeeModel = require('./Models/employee');
 const AdviserModel = require('./Models/adviser');
 const AnalystModel = require('./Models/analyst');
 const StoreModel = require('./Models/store');
@@ -27,7 +27,7 @@ const DB = new Sequelize(
 )
 
 // CREANDO MODELOS
-const User = UserModel(DB, Sequelize);
+const Employee = EmployeeModel(DB, Sequelize);
 const Adviser = AdviserModel(DB, Sequelize);
 const Analyst = AnalystModel(DB, Sequelize);
 const Store = StoreModel(DB, Sequelize);
@@ -44,14 +44,13 @@ DB.authenticate()
     })
 
 // RELACIONES
-/*
 // adviser(1), user(1) HERENCIA
-Adviser.belongsTo(User, { foreignKey:'userId' });
-User.Adviser = User.hasOne(Adviser);
+Adviser.belongsTo(Employee, { foreignKey:'userId' });
+Employee.Adviser = Employee.hasOne(Adviser);
 
 // analyst(1), user(1) HERENCIA
-Analyst.belongsTo(User, { foreignKey:'userId' });
-User.Analyst = User.hasOne(Analyst);
+Analyst.belongsTo(Employee, { foreignKey:'userId' });
+Employee.Analyst = Employee.hasOne(Analyst);
 
 // prospect(*), adviser(1)
 Prospect.belongsTo(Adviser, { foreignKey:'userAdviserId' });
@@ -79,7 +78,7 @@ ClientApplication.Borrower = ClientApplication.hasOne(Borrower);
 
 // borrower(1), prospect(1)
 Borrower.belongsTo(Prospect, { foreignKey:'prospectId' });
-Prospect.Borrower = Prospect.hasOne(Borrower); */
+Prospect.Borrower = Prospect.hasOne(Borrower, { foreignKey:'prospectId' });
 
 // DB.sync({ force: true }) para hacer drop de las tablas antes del sync
 DB.sync()
@@ -88,7 +87,7 @@ DB.sync()
     .catch(err => console.error(err))
 
 module.exports = {
-    User,
+    Employee,
     Adviser,
     Analyst,
     Store,

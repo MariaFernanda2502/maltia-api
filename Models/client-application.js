@@ -1,5 +1,5 @@
 module.exports = (DB, type) => {
-    return DB.define('clientApplication',
+    return DB.define('clientapplication',
     {
     clientApplicationId: {
         primaryKey: true,
@@ -10,7 +10,7 @@ module.exports = (DB, type) => {
         foreignKey: true,
         type: type.STRING,
         references: {
-            model: 'Adviser',
+            model: 'adviser',
             key: 'userId'
         }
     },
@@ -18,7 +18,7 @@ module.exports = (DB, type) => {
         foreignKey: true,
         type: type.STRING,
         references: {
-            model: 'Analyst',
+            model: 'analyst',
             key: 'userId'
         }
     },

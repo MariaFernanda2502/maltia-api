@@ -66,8 +66,9 @@ router.post('/crear-analista', (req, res, next) => {
     .catch((err) => next(err))
 })
 
+
 // Lista de analistas
-router.get('/lista-analista', async (req, res, next) => {
+admin.get('/lista-analista', async (req, res, next) => {
     const page = Boolean(req.params.page) ? Number(req.query.page) : INITIAL_PAGE;
     
     const totalNumResults = await analista.count();
@@ -86,8 +87,8 @@ router.get('/lista-analista', async (req, res, next) => {
         })
     })
     .catch((err) => next(err))
-})
-*/
+})*/
+
 // ---------------------------------ASESOR---------------------------------
 
 module.exports = admin

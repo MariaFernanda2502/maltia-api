@@ -9,7 +9,7 @@ module.exports = (DB, type) => {
         foreignKey: true,
         type: type.STRING,
         references: {
-            model: 'Adviser',
+            model: 'adviser',
             key: 'userId'
         }
     },

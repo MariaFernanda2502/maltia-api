@@ -21,7 +21,7 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     return res.status(500).json({
         "name": err.name,
-        "message": `$err.message, ${err.original ? err.original : ':('}`,
+        "message": `${err.message}, ${err.original ? err.original : ':('}`,
     })
 })
 
