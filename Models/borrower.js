@@ -2,17 +2,6 @@ module.exports = (DB, type) => {
     return DB.define('borrower',
     {
     prospectId: {
-
-        // Es foreign key
-        type: type.INTEGER,
-    },
-    clientApplicationId: {
-        // Es foreign key
-        type: type.INTEGER,
-    },
-    numClienteZorro: {
-        type: type.INTEGER,
-
         primaryKey: true,
         foreignKey: true,
         type: type.INTEGER,
@@ -31,7 +20,6 @@ module.exports = (DB, type) => {
     },
     numClienteZorro: {
         type: type.BIGINT,
-
         noEmpty: true,
     },
     fechaNacimiento: {
@@ -54,11 +42,7 @@ module.exports = (DB, type) => {
         type: type.STRING,  
     },
     telefonoReferenciaUno: {
-
-        type: type.INTEGER,
-
         type: type.BIGINT,
-
         validate: {
             isNumeric: true,
         }
@@ -67,11 +51,7 @@ module.exports = (DB, type) => {
         type: type.STRING,
     },
     telefonoReferenciaDos: {
-
-        type: type.INTEGER,
-
         type: type.BIGINT,
-
         validate: {
             isNumeric: true,
         }

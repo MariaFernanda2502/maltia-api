@@ -5,7 +5,6 @@ module.exports = (DB, type) => {
         type: type.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        noEmpty: true,
     },
     userAdviserId: {
         foreignKey: true,
@@ -36,9 +35,6 @@ module.exports = (DB, type) => {
         noEmpty: true,
     },
     telefono: {
-
-        type: type.INTEGER,
-
         type: type.BIGINT,
         noEmpty: true,
         validate: {

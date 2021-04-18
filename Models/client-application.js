@@ -2,9 +2,6 @@ module.exports = (DB, type) => {
     return DB.define('clientapplication',
     {
     clientApplicationId: {
-
-        type: type.INTEGER,
-
         primaryKey: true,
         type: type.INTEGER,
         autoIncrement: true,

@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const admin = express.Router();
 const { Adviser, Analyst } = require('../database');
 //const { DESC } = require('sequelize');
 
@@ -8,14 +8,8 @@ const { Adviser, Analyst } = require('../database');
 
 // ---------------------------------ANALISTA---------------------------------
 // Eliminar analista
-
-
-router.delete('eliminar-analista/:analistaId', async (req, res, next) => {
-})
-
 /*
 router.delete('eliminar-analista/:analistaId', async(req, res, next) => {
-
     const { analistaId } = req.params;
 
     try {
@@ -97,7 +91,4 @@ admin.get('/lista-analista', async (req, res, next) => {
 
 // ---------------------------------ASESOR---------------------------------
 
-
-module.exports = router
-
-
+module.exports = admin

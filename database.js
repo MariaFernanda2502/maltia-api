@@ -11,9 +11,6 @@ const ProspectModel = require('./Models/prospect');
 const BorrowerModel = require('./Models/borrower');
 
 // INSTANCIA PARA PODER HACER EL INICIO DE SESIÓN
-
-
-
 const DB = new Sequelize(
     process.env.DB,
     process.env.DB_USER,
@@ -37,9 +34,6 @@ DB.authenticate()
         console.error('Unable to connect to the database', err);
     })
 
-
-
-
 // CREANDO MODELOS
 const Employee = EmployeeModel(DB, Sequelize);
 const Adviser = AdviserModel(DB, Sequelize);
@@ -52,14 +46,8 @@ const Borrower = BorrowerModel(DB, Sequelize);
 
 // RELACIONES
 // adviser(1), user(1) HERENCIA
-
-/*
-Adviser.belongsTo(User, { foreignKey:'userId', as:'user' });
-User.hasOne(Adviser, {as: 'adviser'});
-
 Adviser.belongsTo(Employee, { foreignKey:'userId' });
 Employee.Adviser = Employee.hasOne(Adviser);
-
 
 // analyst(1), user(1) HERENCIA
 Analyst.belongsTo(Employee, { foreignKey:'userId' });
@@ -90,14 +78,8 @@ Borrower.belongsTo(ClientApplication, { foreignKey:'clientApplicationId' });
 ClientApplication.Borrower = ClientApplication.hasOne(Borrower);
 
 // borrower(1), prospect(1)
-
-borrower.belongsTo(prospect, { foreignKey:'prospectId', as:'prospect'});
-prospect.hasOne(Borrower, { as:'Borrower' });
-*/
-
 Borrower.belongsTo(Prospect, { foreignKey:'prospectId' });
 Prospect.Borrower = Prospect.hasOne(Borrower, { foreignKey:'prospectId' });
-
 
 
 // DB.sync({ force: true }) para hacer drop de las tablas antes del sync
@@ -105,7 +87,6 @@ DB.sync()
     .then(() => {console.log(`Database & tables created!`)
     })
     .catch(err => console.error(err))
-
 
 module.exports = {
     Employee,
