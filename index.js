@@ -1,6 +1,7 @@
 const express = require('express'); //Libreria de express
 const bodyParser = require('body-parser');
 const cors = require('cors');
+require('dotenv').config();
 const app = express(); //Crea la API
 const port = 5000; //Especifica el puerto
 
@@ -8,8 +9,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 const adminRouter = require('./Router/admin');
-const asesorRouter = require('./Router/analista');
-const analistaRouter = require('./Router/asesor');
+const asesorRouter = require('./Router/asesor');
+const analistaRouter = require('./Router/analista');
 
 app.use('/admin', adminRouter);
 app.use('/asesor', asesorRouter);
@@ -20,11 +21,12 @@ app.use((err, req, res, next) => {
     console.error(err.stack);
     return res.status(500).json({
         "name": err.name,
-        "message": `$err.message, ${err.original ? err.original : ':('}`,
+        "message": `${err.message}, ${err.original ? err.original : ':('}`,
     })
 })
-
+  
 //Levantar el servidor
 app.listen(port, () => {
     console.log(`The server is runnig in port ${port}`)
 })
+

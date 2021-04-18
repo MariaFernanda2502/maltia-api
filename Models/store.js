@@ -1,5 +1,5 @@
 module.exports = (DB, type) => {
-    return DB.define('tienda',
+    return DB.define('store',
     {
     id: {
         type: type.STRING,

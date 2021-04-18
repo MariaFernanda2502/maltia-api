@@ -1,15 +1,15 @@
 module.exports = (DB, type) => {
-    return DB.define('prospecto',
+    return DB.define('prospect',
     {
     prospectId: {
-        type: type.INTERGER,
+        type: type.INTEGER, 
         primaryKey: true,
         autoIncrement: true,
     },
     userAdviserId: {
         // Es foreign key
         type: type.STRING,
-    },
+    },  
     storeId: {
         // Es foreign key
         type: type.STRING,
@@ -27,7 +27,7 @@ module.exports = (DB, type) => {
         noEmpty: true,
     },
     telefono: {
-        type: type.INTERGER,
+        type: type.INTEGER,
         noEmpty: true,
         validate: {
             isNumeric: true,

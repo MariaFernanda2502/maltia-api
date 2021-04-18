@@ -1,5 +1,5 @@
 module.exports = (DB, type) => {
-    return DB.define('user',
+    return DB.define('employee',
     {
     userId: {
         type: type.STRING,
@@ -33,7 +33,7 @@ module.exports = (DB, type) => {
         }
     },
     telefono: {
-        type: type.INTERGER,
+        type: type.INTEGER,
         noEmpty: true,
         validate: {
             isNumeric: true,
