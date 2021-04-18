@@ -4,7 +4,7 @@ const router = express.Router();
 
 // ---------------------------------ANALISTA---------------------------------
 // Eliminar analista
-/*
+
 router.delete('eliminar-analista/:analistaId', async (req, res, next) => {
     const { analistaId } = req.params;
 
@@ -76,5 +76,5 @@ router.get('/lista-analista', (req, res, next) => {
 })
 
 // ---------------------------------ASESOR---------------------------------
-*/
+
 module.exports = router

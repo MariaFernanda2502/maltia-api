@@ -2,7 +2,7 @@ module.exports = (DB, type) => {
     return DB.define('solicitud',
     {
     clientApplicationId: {
-        type: type.INTERGER,
+        type: type.INTEGER,
         primaryKey: true,
         autoIncrement: true,
     },
@@ -24,16 +24,16 @@ module.exports = (DB, type) => {
         type: type.DATE,
     },
     antiguedad: {
-        type: type.INTERGER,
+        type: type.INTEGER,
     },
     creditoSolicitado: {
-        type: type.INTERGER,
+        type: type.INTEGER,
     },
     capacidadPago: {
-        type: type.INTERGER,
+        type: type.INTEGER,
     },
     creditoAutorizado: {
-        type: type.INTERGER,
+        type: type.INTEGER,
     },
     fechaAutorizacion: {
         type: type.DATE,

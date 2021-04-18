@@ -1,7 +1,6 @@
 {
   "name": "maltia-api",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -19,5 +18,14 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.7"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MariaFernanda2502/maltia-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MariaFernanda2502/maltia-api/issues"
+  },
+  "homepage": "https://github.com/MariaFernanda2502/maltia-api#readme",
+  "description": ""
 }

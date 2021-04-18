@@ -11,7 +11,7 @@ const ProspectModel = require('./Models/prospect.js');
 const BorrowerModel = require('./Models/borrower.js');
 
 // INSTANCIA PARA PODER HACER EL INICIO DE SESIÓN
-/*
+
 const DB = new Sequelize(
     process.env.DB,
     process.env.DB_USER,
@@ -34,7 +34,7 @@ DB.authenticate()
     .catch((err) => {
         console.error('Unable to connect to the database', err);
     })
-*/
+
 
 // CREANDO MODELOS
 const User = UserModel(DB, Sequelize);
@@ -45,9 +45,10 @@ const ClientApplication = ClientApplicationModel(DB, Sequelize);
 const Prospect = ProspectModel(DB, Sequelize);
 const Borrower = BorrowerModel(DB, Sequelize);
 
-/*
+
 // RELACIONES
 // adviser(1), user(1) HERENCIA
+/*
 Adviser.belongsTo(User, { foreignKey:'userId', as:'user' });
 User.hasOne(Adviser, {as: 'adviser'});
 
@@ -82,13 +83,13 @@ ClientApplication.hasOne(Borrower, { as:'Borrower' });
 // borrower(1), prospect(1)
 borrower.belongsTo(prospect, { foreignKey:'prospectId', as:'prospect'});
 prospect.hasOne(Borrower, { as:'Borrower' });
-
+*/
 // DB.sync({ force: true }) para hacer drop de las tablas antes del sync
 DB.sync().
     then(() => {console.log(`Database & tables created!`)
     })
     .catch(err => console.error(err))
-*/
+
 
 module.export = {
     User,

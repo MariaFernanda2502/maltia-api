@@ -33,7 +33,7 @@ module.exports = (DB, type) => {
         }
     },
     telefono: {
-        type: type.INTERGER,
+        type: type.INTEGER,
         noEmpty: true,
         validate: {
             isNumeric: true,
