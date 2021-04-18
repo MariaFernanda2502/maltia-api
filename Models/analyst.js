@@ -2,9 +2,13 @@ module.exports = (DB, type) => {
     return DB.define('analyst',
     {
     userId: {
-        // Es foreign key
-        type: type.STRING,
+        foreignKey: true,
         primaryKey: true,
+        type: type.STRING,
+        references: {
+            model: 'employees',
+            key: 'userId'
+    }
     },
     departamento: {
         type: type.STRING,
@@ -14,5 +18,4 @@ module.exports = (DB, type) => {
 }, {
     // Opción para permitir soft delete
     paranoid: true
-})
-}
+})}

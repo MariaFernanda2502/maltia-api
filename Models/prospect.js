@@ -1,5 +1,5 @@
 module.exports = (DB, type) => {
-    return DB.define('prospecto',
+    return DB.define('prospect',
     {
     prospectId: {
         type: type.INTEGER,
@@ -8,12 +8,20 @@ module.exports = (DB, type) => {
         noEmpty: true,
     },
     userAdviserId: {
-        // Es foreign key
+        foreignKey: true,
         type: type.STRING,
+        references: {
+            model: 'advisers',
+            key: 'userId',
+        }
     },
     storeId: {
-        // Es foreign key
+        foreignKey: true,
         type: type.STRING,
+        references: {
+            model: 'stores',
+            key: 'storeId',
+        }
     },
     nombre: {
         type: type.STRING,
@@ -28,7 +36,10 @@ module.exports = (DB, type) => {
         noEmpty: true,
     },
     telefono: {
+
         type: type.INTEGER,
+
+        type: type.BIGINT,
         noEmpty: true,
         validate: {
             isNumeric: true,

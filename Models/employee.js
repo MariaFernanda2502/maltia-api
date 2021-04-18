@@ -1,9 +1,9 @@
 module.exports = (DB, type) => {
-    return DB.define('user',
+    return DB.define('employee',
     {
     userId: {
-        type: type.STRING,
         primaryKey: true,
+        type: type.STRING,
     },
     contrasena: {
         type: type.STRING,
@@ -33,7 +33,11 @@ module.exports = (DB, type) => {
         }
     },
     telefono: {
+
         type: type.INTEGER,
+
+        type: type.BIGINT,
+
         noEmpty: true,
         validate: {
             isNumeric: true,
