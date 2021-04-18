@@ -2,17 +2,25 @@ module.exports = (DB, type) => {
     return DB.define('clientapplication',
     {
     clientApplicationId: {
-        type: type.INTEGER,
         primaryKey: true,
+        type: type.INTEGER,
         autoIncrement: true,
     },
     userAdviserId: {
-        // Es foreign key
+        foreignKey: true,
         type: type.STRING,
+        references: {
+            model: 'advisers',
+            key: 'userId'
+        }
     },
     userAnalystId: {
-        // Es foreign key
+        foreignKey: true,
         type: type.STRING,
+        references: {
+            model: 'analysts',
+            key: 'userId'
+        }
     },
     revisionMesa: {
         type: type.BOOLEAN,

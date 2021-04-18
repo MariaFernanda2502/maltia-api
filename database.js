@@ -2,16 +2,15 @@ require('dotenv').config();
 const { Sequelize } = require('sequelize');
 
 // IMPORTANDO ESQUEMAS
-const UserModel = require('./Models/user.js');
-const AdviserModel = require('./Models/adviser.js');
-const AnalystModel = require('./Models/analyst.js');
-const StoreModel = require('./Models/store.js');
-const ClientApplicationModel = require('./Models/client-application.js');
-const ProspectModel = require('./Models/prospect.js');
-const BorrowerModel = require('./Models/borrower.js');
+const EmployeeModel = require('./Models/employee');
+const AdviserModel = require('./Models/adviser');
+const AnalystModel = require('./Models/analyst');
+const StoreModel = require('./Models/store');
+const ClientApplicationModel = require('./Models/client-application');
+const ProspectModel = require('./Models/prospect');
+const BorrowerModel = require('./Models/borrower');
 
 // INSTANCIA PARA PODER HACER EL INICIO DE SESIÓN
-
 const DB = new Sequelize(
     process.env.DB,
     process.env.DB_USER,
@@ -36,7 +35,7 @@ DB.authenticate()
     })
 
 // CREANDO MODELOS
-const User = UserModel(DB, Sequelize);
+const Employee = EmployeeModel(DB, Sequelize);
 const Adviser = AdviserModel(DB, Sequelize);
 const Analyst = AnalystModel(DB, Sequelize);
 const Store = StoreModel(DB, Sequelize);
@@ -44,53 +43,53 @@ const ClientApplication = ClientApplicationModel(DB, Sequelize);
 const Prospect = ProspectModel(DB, Sequelize);
 const Borrower = BorrowerModel(DB, Sequelize);
 
-/*
+
 // RELACIONES
 // adviser(1), user(1) HERENCIA
-Adviser.belongsTo(User, { foreignKey:'userId', as:'user' });
-User.hasOne(Adviser, {as: 'adviser'});
+Adviser.belongsTo(Employee, { foreignKey:'userId' });
+Employee.Adviser = Employee.hasOne(Adviser);
 
 // analyst(1), user(1) HERENCIA
-Analyst.belongsTo(User, { foreignKey:'userId', as:'user' });
-User.hasOne(Analyst, {as: 'analyst'});
+Analyst.belongsTo(Employee, { foreignKey:'userId' });
+Employee.Analyst = Employee.hasOne(Analyst);
 
 // prospect(*), adviser(1)
-Prospect.belongsTo(Adviser, { foreignKey:'userAdviserId', as:'adviser' });
-Adviser.hasMany(Prospect, {as: 'prospects'})
+Prospect.belongsTo(Adviser, { foreignKey:'userAdviserId' });
+Adviser.Prospects = Adviser.hasMany(Prospect);
 
 // prospect(*), store(1)
-Prospect.belongsTo(Store, {foreignKey:'storeId', as:'store' });
-Store.hasMany(Prospect, { as:'prospects'});
+Prospect.belongsTo(Store, { foreignKey:'storeId' });
+Store.Prospects = Store.hasMany(Prospect);
 
 // store(*), adviser(1)
-Store.belognsTo(Adviser, { foreignKey:'userAdviserId', as:'adviser' });
-Adviser.hasMany(Store, { as:'stores'});
+Store.belongsTo(Adviser, { foreignKey:'userAdviserId' });
+Adviser.Stores = Adviser.hasMany(Store); 
 
 // clientApplication(*), adviser(1)
-clientApplication.belongsTo(Adviser, { foreignKey:'userAdviserId', as:'adviser' });
-Adviser.hasMany(ClientApplication, { as: 'clientApplications' });
+ClientApplication.belongsTo(Adviser, { foreignKey:'userAdviserId' });
+Adviser.ClientApplications = Adviser.hasMany(ClientApplication);
 
 // clientApplication(*), analyst(1)
-ClientApplication.belongsTo(Analyst, { foreignKey:'userAnalystId', as:'analyst' });
-Analyst.hasMany(clientApplication, { as: 'clientApplications' });
+ClientApplication.belongsTo(Analyst, { foreignKey:'userAnalystId' });
+Analyst.ClientApplications = Analyst.hasMany(ClientApplication);
 
 // borrower(1), ClientApplication(1)
-Borrower.belongsTo(ClientApplication, { foreignKey:'clientApplicationId', as:'clientApplication' });
-ClientApplication.hasOne(Borrower, { as:'Borrower' });
+Borrower.belongsTo(ClientApplication, { foreignKey:'clientApplicationId' });
+ClientApplication.Borrower = ClientApplication.hasOne(Borrower);
 
 // borrower(1), prospect(1)
-borrower.belongsTo(prospect, { foreignKey:'prospectId', as:'prospect'});
-prospect.hasOne(Borrower, { as:'Borrower' });
-*/
+Borrower.belongsTo(Prospect, { foreignKey:'prospectId' });
+Prospect.Borrower = Prospect.hasOne(Borrower, { foreignKey:'prospectId' });
+
+
 // DB.sync({ force: true }) para hacer drop de las tablas antes del sync
-DB.sync().
-    then(() => {console.log(`Database & tables created!`)
+DB.sync()
+    .then(() => {console.log(`Database & tables created!`)
     })
     .catch(err => console.error(err))
 
-
 module.exports = {
-    User,
+    Employee,
     Adviser,
     Analyst,
     Store,

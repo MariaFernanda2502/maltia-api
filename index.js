@@ -5,16 +5,17 @@ require('dotenv').config();
 const app = express(); //Crea la API
 const port = 5000; //Especifica el puerto
 
+// Import de las rutas
+const adminRouter = require('./Router/admin');
+const adviserRouter = require('./Router/adviser');
+const analystRouter = require('./Router/analyst');
+
 app.use(bodyParser.json());
 app.use(cors());
 
-const adminRouter = require('./Router/admin');
-const asesorRouter = require('./Router/asesor');
-const analistaRouter = require('./Router/analista');
-
 app.use('/admin', adminRouter);
-app.use('/asesor', asesorRouter);
-app.use('/analista', analistaRouter);
+app.use('/asesor', adviserRouter);
+app.use('/analista', analystRouter);
 
 // Atrapa todos los errores
 app.use((err, req, res, next) => {
