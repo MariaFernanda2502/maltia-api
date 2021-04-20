@@ -1,8 +1,6 @@
 const express = require('express');
 const { Prospect } = require('../database');
 const router = express.Router();
-// const { adviser } = require('../database');
-
 
 router.get('/informacion-prospecto/:prospectId', (req, res, next) =>{
 	const {prospectId } = req.params;

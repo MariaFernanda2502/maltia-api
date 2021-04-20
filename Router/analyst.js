@@ -2,8 +2,6 @@ const express = require('express');
 const { Prospect } = require('../database');
 const router = express.Router();
 
-
-
 router.get('/generar-reporte', (req, res, next) => {
     return res.status(200).json({
         message: "Aqui esta el reporte generado"
