@@ -2,6 +2,12 @@ const express = require('express');
 const { Prospect } = require('../database');
 const router = express.Router();
 
+
+
+router.get('/generar-reporte', (req, res, next) => {
+    console.log('Aqui va el reporte generado')
+})
+
 router.get('/lista-prospectos', (req, res, next) => {
     Prospect.findAll({
         attributes: ['prospectId','nombre'], // cuando solo queremos algunos campos. Se le puede poner un alias
@@ -59,27 +65,28 @@ router.patch('/editar-prospecto/:prospectId', async (req, res, next) => {
 		next(err);
 	}
 })
-
-
-router.delete('eliminar-prospecto/:prospectId', async(req, res, next) => {
-    const { prospectId } = req.params;
+router.delete('/eliminar-prospecto/:prospectId', async (req, res, next) => {
+    const { prospectId } = req.params; //destructura
 
     try {
-        let Prospect = await analista.findByPk(prospectId)
-    
-    if(Prospect){
-        await Prospect.destroy()
-        return res.status(204).send()
-        } else {
+        let prospecto = await Prospect.findByPk(prospectId)
+
+        if(prospecto){ // exitoso, modifica
+            await prospecto.destroy()
+            return res.status(204).send()
+                
+        } else { // no lo encontró
             return res.status(404).json({
                 name: "Not found",
-                message: "El usuario  no existe"
+                message: "Sorry, el usuario que buscas no existe"
             })
         }
-    } catch(err) {
-        next(err);
+    } catch(err){
+        Next(err); // lo manda al siguiente middleware
     }
+
 })
+
 
 
 module.exports = router
