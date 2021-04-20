@@ -20,23 +20,18 @@ module.exports = (DB, type) => {
     },
     numClienteZorro: {
         type: type.BIGINT,
-        noEmpty: true,
     },
     fechaNacimiento: {
         type: type.DATE,
-        noEmpty: true,
     },
     firmaBuro: {
         type: type.BOOLEAN,
-        noEmpty: true,
     },
     ine: {
-        type: type.BOOLEAN,
-        noEmpty: true,  
+        type: type.BOOLEAN,  
     },
     direccion: {
         type: type.STRING,
-        noEmpty: true,
     },
     nombreRefererenciaUno: {
         type: type.STRING,  

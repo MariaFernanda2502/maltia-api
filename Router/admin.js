@@ -165,28 +165,28 @@ router.post('/crear-asesor', (req, res, next) => {
 
 // Lista de asesores ---------------- FALTA
 router.get('/lista-asesores', async (req, res, next) => {
-    const page = Boolean(req.params.page) ? Number(req.query.page) : INITIAL_PAGE;
-    const totalNumResults = await Employee.count();
-    /*DB.query(`
-	SELECT [u].[id],
-		   [u].[firstName],
-		   [u].[lastName],
-		   FROM [employees] AS [U] INNER JOIN [analysts] AS [A] ON [u].[userId] = [A].[userId]
-           WHERE [u].[puesto] = 'Asesor'
-	`)*/
+    //const page = Boolean(req.params.page) ? Number(req.query.page) : INITIAL_PAGE;
+    //const totalNumResults = await Analyst.count();
+    consulta = DB.query(`
+            SELECT [u].[id],
+            [u].[firstName],
+            [u].[lastName],
+            FROM [employees] AS [U] INNER JOIN [analysts] AS [A] ON [u].[userId] = [A].[userId]
+            WHERE [u].[puesto] = 'Asesor'
+	`)
 
-    Adviser.findAll({
-        offset: (page - 1) * PAGE_SIZE,
-        limit: PAGE_SIZE,
+    Employee.findAll({
+        //offset: (page - 1) * PAGE_SIZE,
+        //limit: PAGE_SIZE,
         //attributes: ['nombre', 'apellidoPaterno', 'apellidoMaterno', 'puesto'],
-        //order: [['nombre', 'ASC']],
+        order: [['nombre', 'ASC']],
     })
-    .then((allAdviser) => {
+    .then((consulta) => {
             return res.status(200).json ({
-                currentPage: page,
-                numResults: allAdviser.length,
-                pages: Math.ceil(totalNumResults / PAGE_SIZE),
-                data: allAdviser
+                //currentPage: page,
+                //numResults: consulta.length,
+                //pages: Math.ceil(totalNumResults / PAGE_SIZE),
+                data: consulta
             })
     })
     .catch((err) => next(err))
