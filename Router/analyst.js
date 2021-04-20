@@ -5,7 +5,9 @@ const router = express.Router();
 
 
 router.get('/generar-reporte', (req, res, next) => {
-    console.log('Aqui va el reporte generado')
+    return res.status(200).json({
+        message: "Aqui esta el reporte generado"
+    })
 })
 
 router.get('/lista-prospectos', (req, res, next) => {
