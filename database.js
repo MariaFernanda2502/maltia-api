@@ -96,4 +96,5 @@ module.exports = {
     ClientApplication,
     Prospect,
     Borrower,
+    DB
 } 
