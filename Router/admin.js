@@ -2,9 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { Adviser, Analyst, Employee, DB } = require('../database');
 
-const PAGE_SIZE = 10;
-const INITIAL_PAGE = 1;
-
 // ---------------------------------ANALISTA---------------------------------
 // Eliminar analista
 router.delete('/eliminar-analista/:userId', async(req, res, next) => {
