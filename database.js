@@ -74,8 +74,8 @@ ClientApplication.belongsTo(Analyst, { foreignKey:'userAnalystId' });
 Analyst.ClientApplications = Analyst.hasMany(ClientApplication);
 
 // borrower(1), ClientApplication(1)
-Borrower.belongsTo(ClientApplication, { foreignKey:'clientApplicationId' });
-ClientApplication.Borrower = ClientApplication.hasOne(Borrower);
+ClientApplication.belongsTo(Borrower, { foreignKey:'prospectId' });
+Borrower.ClientApplication = Borrower.hasOne(ClientApplication);
 
 // borrower(1), prospect(1)
 Borrower.belongsTo(Prospect, { foreignKey:'prospectId' });
@@ -96,4 +96,5 @@ module.exports = {
     ClientApplication,
     Prospect,
     Borrower,
+    DB,
 } 

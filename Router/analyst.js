@@ -1,5 +1,5 @@
 const express = require('express');
-const { Prospect } = require('../database');
+const { Prospect, DB } = require('../database');
 const router = express.Router();
 
 router.get('/generar-reporte', (req, res, next) => {
