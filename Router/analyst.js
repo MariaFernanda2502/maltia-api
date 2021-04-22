@@ -1,5 +1,9 @@
 const express = require('express');
+const { SELECT } = require('sequelize/types/lib/query-types');
 const { Prospect } = require('../database');
+const  { Borrower } = require('../database');
+const { DB } = require('../database');
+
 const router = express.Router();
 
 router.get('/generar-reporte', (req, res, next) => {
@@ -8,13 +12,23 @@ router.get('/generar-reporte', (req, res, next) => {
     })
 })
 
-router.get('/lista-prospectos', (req, res, next) => {
-    Prospect.findAll({
-        attributes: ['prospectId','nombre'], // cuando solo queremos algunos campos. Se le puede poner un alias
-    })
-    .then((allProspects) => {
+router.get('/lista-prestatarios', (req, res, next) => {
+    DB.query(`
+        SELECT
+         [prospect].[nombre],
+         [prospect].[apellidoPaterno],
+         [prospect].[apellidoMaterno]
+        FROM
+         [borrower] JOIN [prospect] using ([prospectId]) JOIN [clientapplication]
+         using ([prospectId])
+        
+        WHERE
+         [clientapplication].[clientApplicationId] IS NOT NULL
+         `
+    )
+    .then((result) => {
         return res.status(200).json({
-            data: allProspects
+            data: result
         })
     })
     .catch((err) => next(err))
@@ -41,7 +55,7 @@ router.get('/ver-prospecto/:prospectId', (req, res, next) => {
 router.patch('/editar-prospecto/:prospectId', async (req, res, next) => {
 
 	const {prospectId} = req.params;
-	const{body} = req;
+	const {body} = req;
 	try{
 		let prospecto= await Prospect.findByPk(prospectId)
 
