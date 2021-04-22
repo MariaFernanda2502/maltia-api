@@ -1,8 +1,12 @@
 const express = require('express');
+
 const { SELECT } = require('sequelize/types/lib/query-types');
 const { Prospect } = require('../database');
 const  { Borrower } = require('../database');
 const { DB } = require('../database');
+
+
+const { Prospect, DB } = require('../database');
 
 const router = express.Router();
 

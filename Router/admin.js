@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Adviser, Analyst, Employee } = require('../database');
-
-const PAGE_SIZE = 10;
-const INITIAL_PAGE = 1;
+const { Adviser, Analyst, Employee, DB } = require('../database');
 
 // ---------------------------------ANALISTA---------------------------------
 // Eliminar analista
@@ -75,21 +72,20 @@ router.post('/crear-analista', (req, res, next) => {
 
 // Lista de analistas---------------- FALTA
 router.get('/lista-analista', async (req, res, next) => {
-    const page = Boolean(req.params.page) ? Number(req.query.page) : INITIAL_PAGE;
-    const totalNumResults = await Analyst.count();
 
-    Analyst.findAll({
-        offset: (page - 1) * PAGE_SIZE,
-        limit: PAGE_SIZE,
-        //attributes: ['nombre', 'apellidoPaterno', 'apellidoMaterno', 'puesto'],
-        //order: [['nombre', 'ASC']],
-    })
-    .then((allAnalyst) => {
+    DB.query(`
+        SELECT 
+            [u].[userId],
+            [u].[nombre],
+            [u].[apellidoPaterno],
+            [u].[apellidoMaterno]
+        FROM [employees] AS [u]
+        WHERE [u].[puesto] = 'Analista'
+    `)
+
+    .then((result) => {
             return res.status(200).json ({
-                currentPage: page,
-                numResults: allAnalyst.length,
-                pages: Math.ceil(totalNumResults / PAGE_SIZE),
-                data: allAnalyst 
+                data: result 
             })
     })
     .catch((err) => next(err))
@@ -165,28 +161,20 @@ router.post('/crear-asesor', (req, res, next) => {
 
 // Lista de asesores ---------------- FALTA
 router.get('/lista-asesores', async (req, res, next) => {
-    //const page = Boolean(req.params.page) ? Number(req.query.page) : INITIAL_PAGE;
-    //const totalNumResults = await Analyst.count();
-    consulta = DB.query(`
-            SELECT [u].[id],
-            [u].[firstName],
-            [u].[lastName],
-            FROM [employees] AS [U] INNER JOIN [analysts] AS [A] ON [u].[userId] = [A].[userId]
-            WHERE [u].[puesto] = 'Asesor'
+    
+    DB.query(`
+        SELECT 
+            [u].[userId],
+            [u].[nombre],
+            [u].[apellidoPaterno],
+            [u].[apellidoMaterno]
+        FROM [employees] AS [u]
+        WHERE [u].[puesto] = 'Asesor'
 	`)
 
-    Employee.findAll({
-        //offset: (page - 1) * PAGE_SIZE,
-        //limit: PAGE_SIZE,
-        //attributes: ['nombre', 'apellidoPaterno', 'apellidoMaterno', 'puesto'],
-        order: [['nombre', 'ASC']],
-    })
-    .then((consulta) => {
+    .then((result) => {
             return res.status(200).json ({
-                //currentPage: page,
-                //numResults: consulta.length,
-                //pages: Math.ceil(totalNumResults / PAGE_SIZE),
-                data: consulta
+                data: result
             })
     })
     .catch((err) => next(err))

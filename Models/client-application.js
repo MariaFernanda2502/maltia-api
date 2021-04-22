@@ -22,6 +22,15 @@ module.exports = (DB, type) => {
             key: 'userId'
         }
     },
+    prospectId: {
+        foreignKey: true,
+        type: type.INTEGER,
+        unique: true,
+        references: {
+            model: 'borrowers',
+            key: 'prospectId',
+        }
+    },
     revisionMesa: {
         type: type.BOOLEAN,
     },
