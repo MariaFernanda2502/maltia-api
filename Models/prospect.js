@@ -30,7 +30,7 @@ module.exports = (DB, type) => {
         type: type.STRING,
         noEmpty: true,
     },
-    appelidoMaterno:{
+    apellidoMaterno:{
         type: type.STRING,
         noEmpty: true,
     },

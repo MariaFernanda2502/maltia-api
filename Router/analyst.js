@@ -1,12 +1,7 @@
 const express = require('express');
-
-const { SELECT } = require('sequelize/types/lib/query-types');
-const { Prospect } = require('../database');
 const  { Borrower } = require('../database');
-const { DB } = require('../database');
-
-
-const { Prospect, DB } = require('../database');
+const {ClientApplication} = require('../database');
+const {DB } = require('../database');
 
 const router = express.Router();
 
@@ -19,15 +14,16 @@ router.get('/generar-reporte', (req, res, next) => {
 router.get('/lista-prestatarios', (req, res, next) => {
     DB.query(`
         SELECT
-         [prospect].[nombre],
-         [prospect].[apellidoPaterno],
-         [prospect].[apellidoMaterno]
+         [prospects].[nombre],
+         [prospects].[apellidoPaterno],
+         [prospects].[apellidoMaterno]
         FROM
-         [borrower] JOIN [prospect] using ([prospectId]) JOIN [clientapplication]
-         using ([prospectId])
+         [borrowers] JOIN [prospects]  ON [borrowers].[prospectId] = [prospects].[prospectId] 
+         JOIN [clientapplications] ON [borrowers].[prospectId] = [clientapplications].[prospectId]
+         
         
         WHERE
-         [clientapplication].[clientApplicationId] IS NOT NULL
+         [clientapplications].[prospectId] IS NOT NULL
          `
     )
     .then((result) => {
@@ -38,10 +34,10 @@ router.get('/lista-prestatarios', (req, res, next) => {
     .catch((err) => next(err))
 })
 
-router.get('/ver-prospecto/:prospectId', (req, res, next) => {
+router.get('/ver-solicitud-prestatario/:prospectId', (req, res, next) => {
     const { prospectId } = req.params;
     
-        Prospect.findByPk(prospectId) 
+        ClientApplication.findOne({where: {prospectId:prospectId}}) 
         .then((prospecto) => {
             if(prospecto){
                 return res.status(200).json({
@@ -56,12 +52,12 @@ router.get('/ver-prospecto/:prospectId', (req, res, next) => {
         })
         .catch((err) => next(err))
 })
-router.patch('/editar-prospecto/:prospectId', async (req, res, next) => {
+router.patch('/editar-solicitud-prestatario/:prospectId', async (req, res, next) => {
 
 	const {prospectId} = req.params;
 	const {body} = req;
 	try{
-		let prospecto= await Prospect.findByPk(prospectId)
+		let prospecto= await ClientApplication.findOne({where: {prospectId:prospectId}}) 
 
 		if(prospecto){
 			await prospecto.update(
@@ -83,11 +79,11 @@ router.patch('/editar-prospecto/:prospectId', async (req, res, next) => {
 		next(err);
 	}
 })
-router.delete('/eliminar-prospecto/:prospectId', async (req, res, next) => {
+router.delete('/eliminar-solicitud-prestatario/:prospectId', async (req, res, next) => {
     const { prospectId } = req.params; //destructura
 
     try {
-        let prospecto = await Prospect.findByPk(prospectId)
+        let prospecto = await ClientApplication.findOne({where: {prospectId:prospectId}}) 
 
         if(prospecto){ // exitoso, modifica
             await prospecto.destroy()
