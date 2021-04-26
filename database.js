@@ -9,6 +9,7 @@ const StoreModel = require('./Models/store');
 const ClientApplicationModel = require('./Models/client-application');
 const ProspectModel = require('./Models/prospect');
 const BorrowerModel = require('./Models/borrower');
+const ReportModel = require('./Models/report');
 
 // INSTANCIA PARA PODER HACER EL INICIO DE SESIÓN
 const DB = new Sequelize(
@@ -42,7 +43,7 @@ const Store = StoreModel(DB, Sequelize);
 const ClientApplication = ClientApplicationModel(DB, Sequelize);
 const Prospect = ProspectModel(DB, Sequelize);
 const Borrower = BorrowerModel(DB, Sequelize);
-
+const Report = ReportModel(DB, Sequelize);
 
 // RELACIONES
 // adviser(1), user(1) HERENCIA
@@ -80,6 +81,10 @@ ClientApplication.Borrower = ClientApplication.hasOne(Borrower);
 // borrower(1), prospect(1)
 Borrower.belongsTo(Prospect, { foreignKey:'prospectId' });
 Prospect.Borrower = Prospect.hasOne(Borrower, { foreignKey:'prospectId' });
+
+// analista(1), reportes(*)
+Report.belongsTo(Analyst, { foreignKey:'userAnalystId'});
+Analyst.Reports = Analyst.hasMany(Report);
 
 
 // DB.sync({ force: true }) para hacer drop de las tablas antes del sync

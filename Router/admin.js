@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { Adviser, Analyst, Employee, DB } = require('../database');
+const { QueryTypes } = require('sequelize');
+
 
 // ---------------------------------ANALISTA---------------------------------
 // Eliminar analista
@@ -27,7 +29,7 @@ router.delete('/eliminar-analista/:userId', async(req, res, next) => {
 })
 
 // Modificar analista
-router.patch('/editar-analista/:userId', async (req, res, next) => {
+router.patch('/analistas/editar/:userId', async (req, res, next) => {
     const { userId } = req.params;
     const { body } = req;
 
@@ -57,7 +59,7 @@ router.patch('/editar-analista/:userId', async (req, res, next) => {
 })
 
 // Crear analista
-router.post('/crear-analista', (req, res, next) => {
+router.post('/analistas/crear', (req, res, next) => {
     Employee.create(req.body)
     .then((employee) => {
         Analyst.create({ userId: employee.userId })
@@ -70,8 +72,32 @@ router.post('/crear-analista', (req, res, next) => {
     .catch((err) => next(err))
 })
 
+// Ver un analista
+router.get('/analistas/:userId', (req, res, next) => {
+    const { userId } = req.params;
+
+    Employee.findOne({
+        where: {
+            userId: userId
+        }
+    })
+        .then((employee) => {
+            if(employee) {
+                return res.status(200).json({
+                    data: employee
+                })
+            } else {
+            return res.status(404).json({
+                name: "Not found",
+                message: "Sorry, el usuario que buscas no existe"
+            })
+        }
+        })
+        .catch((err) => next(err))
+})
+
 // Lista de analistas---------------- FALTA
-router.get('/lista-analista', async (req, res, next) => {
+router.get('/analistas', async (req, res, next) => {
 
     DB.query(`
         SELECT 
@@ -81,7 +107,9 @@ router.get('/lista-analista', async (req, res, next) => {
             [u].[apellidoMaterno]
         FROM [employees] AS [u]
         WHERE [u].[puesto] = 'Analista'
-    `)
+    `, {
+        type: QueryTypes.SELECT
+    }) 
 
     .then((result) => {
             return res.status(200).json ({
@@ -170,7 +198,9 @@ router.get('/lista-asesores', async (req, res, next) => {
             [u].[apellidoMaterno]
         FROM [employees] AS [u]
         WHERE [u].[puesto] = 'Asesor'
-	`)
+	`, {
+        type: QueryTypes.SELECT
+    })
 
     .then((result) => {
             return res.status(200).json ({
