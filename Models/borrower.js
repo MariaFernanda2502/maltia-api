@@ -10,14 +10,6 @@ module.exports = (DB, type) => {
             key: 'prospectId',
         }
     },
-    clientApplicationId: {
-        foreignKey: true,
-        type: type.INTEGER,
-        references: {
-            model: 'clientapplications',
-            key: 'clientApplicationId',
-        }
-    },
     numClienteZorro: {
         type: type.BIGINT,
     },
