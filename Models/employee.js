@@ -4,6 +4,7 @@ module.exports = (DB, type) => {
     userId: {
         primaryKey: true,
         type: type.STRING,
+        autoIncrement: true,
     },
     contrasena: {
         type: type.STRING,
@@ -30,7 +31,8 @@ module.exports = (DB, type) => {
         noEmpty: true,
         validate: {
             isEmail: true,
-        }
+        },
+        unique: true,
     },
     telefono: {
         type: type.BIGINT,
