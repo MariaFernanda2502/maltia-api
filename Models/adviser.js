@@ -4,7 +4,8 @@ module.exports = (DB, type) => {
     userId: {
         foreignKey: true,
         primaryKey: true,
-        type: type.STRING,
+        type: type.INTEGER,
+        autoIncrement: true,
         references: {
             model: 'employees',
             key: 'userId'

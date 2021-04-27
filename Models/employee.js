@@ -3,7 +3,7 @@ module.exports = (DB, type) => {
     {
     userId: {
         primaryKey: true,
-        type: type.STRING,
+        type: type.INTEGER,
         autoIncrement: true,
     },
     contrasena: {
