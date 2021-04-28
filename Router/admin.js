@@ -1,17 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const { Adviser, Analyst, Employee, DB } = require('../database');
+const { Adviser, Analyst, Employee, DB, Store } = require('../database');
+const { QueryTypes } = require('sequelize');
+
 
 // ---------------------------------ANALISTA---------------------------------
 // Eliminar analista
-router.delete('/eliminar-analista/:userId', async(req, res, next) => {
+router.delete('/analistas/eliminar/:userId', async(req, res, next) => {
     const { userId } = req.params;
 
     try {
         let employee = await Employee.findByPk(userId)
         let analyst = await Analyst.findByPk(userId)
     
-    if(analyst){
+    if(analyst && employee){
         await analyst.destroy()
         await employee.destroy()
         return res.status(204).send()
@@ -27,23 +29,26 @@ router.delete('/eliminar-analista/:userId', async(req, res, next) => {
 })
 
 // Modificar analista
-router.patch('/editar-analista/:userId', async (req, res, next) => {
+router.patch('/analistas/editar/:userId', async (req, res, next) => {
     const { userId } = req.params;
     const { body } = req;
 
     try {
         let employee = await Employee.findByPk(userId)
         let analyst = await Analyst.findByPk(userId)
-    
-    if(analyst){
-        await employee.update(
+
+    if(analyst && employee){
+        let newEmployee = await employee.update(
             body,
         )
-        await analyst.update(
+        await newEmployee.reload()
+        let newAnalyst = await analyst.update(
             body,
         )
+        await newAnalyst.reload()
+        console.log('New employee', newEmployee);
         return res.status(200).json({
-            data: employee
+            data: newEmployee
         })
     } else {
         return res.status(404).json({
@@ -57,7 +62,7 @@ router.patch('/editar-analista/:userId', async (req, res, next) => {
 })
 
 // Crear analista
-router.post('/crear-analista', (req, res, next) => {
+router.post('/analistas/crear', (req, res, next) => {
     Employee.create(req.body)
     .then((employee) => {
         Analyst.create({ userId: employee.userId })
@@ -70,8 +75,34 @@ router.post('/crear-analista', (req, res, next) => {
     .catch((err) => next(err))
 })
 
-// Lista de analistas---------------- FALTA
-router.get('/lista-analista', async (req, res, next) => {
+// Ver un analista
+router.get('/analistas/:userId', (req, res, next) => {
+    const { userId } = req.params;
+
+    Employee.findOne({
+        where: {
+            userId: userId
+        }
+    })
+        .then((employee) => {
+            if(employee) {
+                return res.status(200).json({
+                    data: employee
+                })
+            } else {
+            return res.status(404).json({
+                name: "Not found",
+                message: "Sorry, el usuario que buscas no existe"
+            })
+        }
+        })
+        .catch((err) => next(err))
+})
+
+// Lista de analistas
+router.get('/analistas', async (req, res, next) => {
+    const query_by = "nombre";
+    const query = Boolean(req.query.query) ? req.query.query : '';
 
     DB.query(`
         SELECT 
@@ -80,8 +111,10 @@ router.get('/lista-analista', async (req, res, next) => {
             [u].[apellidoPaterno],
             [u].[apellidoMaterno]
         FROM [employees] AS [u]
-        WHERE [u].[puesto] = 'Analista'
-    `)
+        WHERE [u].[puesto] = 'Analista' AND [u].deletedAt IS NULL AND ${query_by} LIKE '%${query}%'
+    `, {
+        type: QueryTypes.SELECT
+    }) 
 
     .then((result) => {
             return res.status(200).json ({
@@ -93,14 +126,14 @@ router.get('/lista-analista', async (req, res, next) => {
 
 // ---------------------------------ASESOR---------------------------------
 // Eliminar asesor
-router.delete('/eliminar-asesor/:userId', async(req, res, next) => {
+router.delete('/asesores/eliminar/:userId', async(req, res, next) => {
     const { userId } = req.params;
 
     try {
         let employee = await Employee.findByPk(userId)
         let adviser = await Adviser.findByPk(userId)
     
-    if(adviser){
+    if(adviser && employee){
         await adviser.destroy()
         await employee.destroy()
         return res.status(204).send()
@@ -116,7 +149,7 @@ router.delete('/eliminar-asesor/:userId', async(req, res, next) => {
 })
 
 // Modificar asesor
-router.patch('/editar-asesor/:userId', async (req, res, next) => {
+router.patch('/asesores/editar/:userId', async (req, res, next) => {
     const { userId } = req.params;
     const { body } = req;
 
@@ -124,7 +157,7 @@ router.patch('/editar-asesor/:userId', async (req, res, next) => {
         let employee = await Employee.findByPk(userId)
         let adviser = await Adviser.findByPk(userId)
     
-    if(adviser){
+    if(adviser && employee){
         await employee.update(
             body,
         )
@@ -146,7 +179,7 @@ router.patch('/editar-asesor/:userId', async (req, res, next) => {
 })
 
 // Crear asesor
-router.post('/crear-asesor', (req, res, next) => {
+router.post('/asesores/crear', (req, res, next) => {
     Employee.create(req.body)
     .then((employee) => {
         Adviser.create({ userId: employee.userId })
@@ -159,8 +192,34 @@ router.post('/crear-asesor', (req, res, next) => {
     .catch((err) => next(err))
 })
 
-// Lista de asesores ---------------- FALTA
-router.get('/lista-asesores', async (req, res, next) => {
+// Ver un asesor
+router.get('/asesores/:userId', (req, res, next) => {
+    const { userId } = req.params;
+
+    Employee.findOne({
+        where: {
+            userId: userId
+        }
+    })
+        .then((employee) => {
+            if(employee) {
+                return res.status(200).json({
+                    data: employee
+                })
+            } else {
+            return res.status(404).json({
+                name: "Not found",
+                message: "Sorry, el usuario que buscas no existe"
+            })
+        }
+        })
+        .catch((err) => next(err))
+})
+
+// Lista de asesores
+router.get('/asesores', async (req, res, next) => {
+    const query_by = "nombre";
+    const query = Boolean(req.query.query) ? req.query.query : '';
     
     DB.query(`
         SELECT 
@@ -169,8 +228,10 @@ router.get('/lista-asesores', async (req, res, next) => {
             [u].[apellidoPaterno],
             [u].[apellidoMaterno]
         FROM [employees] AS [u]
-        WHERE [u].[puesto] = 'Asesor'
-	`)
+        WHERE [u].[puesto] = 'Asesor' AND [u].deletedAt IS NULL AND ${query_by} LIKE '%${query}%'
+	`, {
+        type: QueryTypes.SELECT
+    })
 
     .then((result) => {
             return res.status(200).json ({
@@ -178,6 +239,19 @@ router.get('/lista-asesores', async (req, res, next) => {
             })
     })
     .catch((err) => next(err))
+})
+
+// Lista de tiendas
+router.get('/tiendas', async (req, res, next) => {
+    Store.findAll({
+        attributes: ['storeId', 'nombre']
+    })
+    .then((allstores)=>{
+        return res.status(200).json({
+            data: allstores
+        })
+    })
+    .catch(()=>next(err))
 })
 
 module.exports = router
