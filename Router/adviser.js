@@ -1,6 +1,8 @@
 const express = require('express');
-const { Prospect, Borrower, ClientApplication } = require('../database');
+const { Prospect, Borrower, ClientApplication, DB } = require('../database');
 const router = express.Router();
+const { QueryTypes } = require('sequelize');
+
 
 router.get('/informacion-prospecto/:prospectId', (req, res, next) =>{
 	const {prospectId } = req.params;
@@ -26,21 +28,104 @@ router.get('/informacion-prospecto/:prospectId', (req, res, next) =>{
 })
 
 
+router.get('/informacion-solicitud/:prospectId', (req, res, next) =>{
+	const {prospectId } = req.params;
+	ClientApplication.findOne({
+		where: {
+			prospectId: prospectId 
+		}
+	})
+		.then((solicitud)=>{
+			if(solicitud){
+				return res.status(200).json({
+					data: solicitud
+				})
+			}
+			else{
+				return res.status(404).json({
+					name: "Not Found",
+					message: "Sorry, no existe"
+				})
+			}
+		})
+		.catch((err)=>next(err))
+})
+
+
 router.get('/lista-prospectos', (req, res, next)=>{
-	Prospect.findAll()
-		.then((allprospects)=>{
+	DB.query(`
+	SELECT 
+	[prospects].[prospectId],
+	[prospects].[nombre],
+	[prospects].[apellidoPaterno],
+	[prospects].[apellidoMaterno]
+	FROM [prospects] 
+	Where [prospects].[prospectId] NOT IN (SELECT [borrowers].[prospectId]
+													FROM [borrowers]
+													) 
+	order by [nombre]
+	`,{
+		type: QueryTypes.SELECT
+})
+		.then((result)=>{
 			return res.status(200).json({
-				data: allprospects
+				data: result
 			})
 		})
 		.catch(()=>next(err))
+})
+
+router.get('/lista-prestatarios',(req, res, next)=>{
+	DB.query(`
+	SELECT 
+	[prospects].[prospectId],
+	[prospects].[nombre],
+	[prospects].[apellidoPaterno],
+	[prospects].[apellidoMaterno]
+	FROM [prospects] JOIN [borrowers]
+	ON [prospects].[prospectId] = [borrowers].[prospectId]
+	where [borrowers].[prospectId] NOT IN (SELECT [clientapplications].[prospectId]
+													FROM [clientapplications])
+	order by [nombre]
+	`,{
+		type: QueryTypes.SELECT
+})
+	.then((result)=>{
+		return res.status(200).json({
+			data: result
+		})
+	})
+	.catch(()=>next(err))
+})
+
+router.get('/lista-prestatarios-solicitud',(req, res, next)=>{
+	DB.query(`
+	SELECT 
+	[prospects].[prospectId],
+	[prospects].[nombre],
+	[prospects].[apellidoPaterno],
+	[prospects].[apellidoMaterno]
+	FROM [prospects] JOIN [borrowers]
+	ON [prospects].[prospectId] = [borrowers].[prospectId]
+	where [borrowers].[prospectId] IN (SELECT [clientapplications].[prospectId]
+													FROM [clientapplications])
+	order by [nombre]
+	`,{
+					type: QueryTypes.SELECT
+	})
+	.then((result)=>{
+		return res.status(200).json({
+			data: result
+		})
+	})
+	.catch(()=>next(err))
 })
 
 
 router.post('/crear-prospecto', (req, res, next) => {
     Prospect.create(req.body)
 	.then((result)=>{
-		return res.status(201).json(Prospect);
+		return res.status(201).json({data: result});
     })
     .catch((err)=>{next(err)})
 })
@@ -66,12 +151,12 @@ router.post('/crear-prestatario/:prospectId', async(req, res, next) =>{
 	}
 })
 
-router.post('/crear-solicitud/:prospectId', async(req, res, next) =>{
-	const {prospectId} = req.params;
+router.post('/crear-solicitud/:prospectId/solicitado/:creditoSolicitado', async(req, res, next) =>{
+	const {prospectId, creditoSolicitado} = req.params;
 	try{
 		let prestatario = await Borrower.findByPk(prospectId);
 		if(prestatario){
-			await ClientApplication.create({...req.body, prospectId: req.params.prospectId})
+			await ClientApplication.create({...req.body, prospectId: req.params.prospectId, creditoSolicitado: req.params.creditoSolicitado})
 			return res.status(201).json({
 				message: "Solicitud hecha con exito"
 			})
