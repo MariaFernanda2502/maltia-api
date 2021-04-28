@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Adviser, Analyst, Employee, DB } = require('../database');
+const { Adviser, Analyst, Employee, DB, Store } = require('../database');
 const { QueryTypes } = require('sequelize');
 
 
@@ -239,6 +239,19 @@ router.get('/asesores', async (req, res, next) => {
             })
     })
     .catch((err) => next(err))
+})
+
+// Lista de tiendas
+router.get('/tiendas', async (req, res, next) => {
+    Store.findAll({
+        attributes: ['storeId', 'nombre']
+    })
+    .then((allstores)=>{
+        return res.status(200).json({
+            data: allstores
+        })
+    })
+    .catch(()=>next(err))
 })
 
 module.exports = router
