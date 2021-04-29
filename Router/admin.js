@@ -186,6 +186,7 @@ router.post('/asesores/crear', (req, res, next) => {
     Employee.create(req.body)
     .then((employee) => {
         Adviser.create({ userId: employee.userId })
+        console.log(employee.userId)
         .then((result) => {
             return res.status(201).json({
                 data: employee
@@ -287,6 +288,7 @@ router.patch('/editar/tiendas/:storeId', async (req, res, next) => {
 
 router.post('/singup', async (req, res, next) => {
     const { body } = req;
+    console.log('ADIOOOOOOOOOOOOOOOOS', req.body)
 
     try {
         let employee = await Employee.findOne({
@@ -304,37 +306,15 @@ router.post('/singup', async (req, res, next) => {
         let contrasena = await bcrypt.hash(body.contrasena, 10)
         employee = { ...body, contrasena };
 
-        await Employee.create(employee)
-        /*
-        puesto = DB.query(`
-        SELECT 
-            [u].[userId]
-            FROM [employees] AS [u]
-            WHERE [u].[correo] = ${body.correo} AND [u].deletedAt IS NULL 
-	    `, {
-            type: QueryTypes.SELECT
-        })
-        console.log(puesto);*/
-        
-        if(body.puesto === "Asesor") {
-            console.log('HOLAAAAAA', req.body);
-            await Adviser.create({ userId: employee.userId })
-        } 
-        
-        if(body.puesto  === "Analista") {
-            await Analyst.create({ userId: employee.userId })
+        crearEmpleado = await Employee.create(employee)
+
+        if(crearEmpleado.puesto === "Asesor") {
+            await Adviser.create({ userId: crearEmpleado.userId })
         }
 
-        /*
-        .then((employee) => {
-            if(body.puesto === "Asesor") {
-                Adviser.create({ userId: employee.userId })
-            } 
-            .then((result) => {
-                return res.status(201).json({
-                    data: employee
-                });
-            })*/
+        if(crearEmpleado.puesto  === "Analista") {
+            await Analyst.create({ userId: crearEmpleado.userId })
+        } 
 
         const payload = {
             userId: employee.userId,
