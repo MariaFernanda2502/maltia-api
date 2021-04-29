@@ -22,10 +22,6 @@ module.exports = (DB, type) => {
         type: type.STRING,
         noEmpty: true,
     },
-    activo: {
-        type: type.BOOLEAN,
-        noEmpty: true,
-    },
     correo: {
         type: type.STRING,
         noEmpty: true,

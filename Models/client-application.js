@@ -38,7 +38,7 @@ module.exports = (DB, type) => {
         type: type.BOOLEAN,
     },
     fechaAltaISI: {
-        type: type.DATE,
+        type: type.DATEONLY,
     },
     antiguedad: {
         type: type.INTEGER,
@@ -53,7 +53,7 @@ module.exports = (DB, type) => {
         type: type.INTEGER,
     },
     fechaAutorizacion: {
-        type: type.DATE,
+        type: type.DATEONLY,
     },
     estatus: {
         type: type.ENUM,
