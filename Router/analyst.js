@@ -8,10 +8,27 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config;
 
-router.get('/generar-reporte', (req, res, next) => {
-    return res.status(200).json({
-        message: "Aqui esta el reporte generado"
-    })
+router.get('/generar-reporte',(req, res, next)=>{
+
+	DB.query(`
+	SELECT 
+	[clientapplications].[estatus],
+	COUNT([clientapplications].[prospectId]) as total
+	FROM [prospects] JOIN [borrowers] 
+	ON [prospects].[prospectId] = [borrowers].[prospectId] 
+	JOIN [clientapplications]
+	ON [clientapplications].[prospectId] = [borrowers].[prospectId]
+	group by [clientapplications].[estatus]
+	order by [estatus]
+	`,{
+					type: QueryTypes.SELECT
+	})
+	.then((result)=>{
+		return res.status(200).json({
+			data: result
+		})
+	})
+	.catch(()=>next(err))
 })
 
 router.get('/lista-prestatarios', (req, res, next) => {

@@ -14,7 +14,7 @@ module.exports = (DB, type) => {
         type: type.BIGINT,
     },
     fechaNacimiento: {
-        type: type.DATE,
+        type: type.DATEONLY,
     },
     firmaBuro: {
         type: type.BOOLEAN,
