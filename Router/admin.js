@@ -314,7 +314,6 @@ router.post('/singup', async (req, res, next) => {
 	    `, {
             type: QueryTypes.SELECT
         })
-
         console.log(puesto);*/
         
         if(body.puesto === "Asesor") {
