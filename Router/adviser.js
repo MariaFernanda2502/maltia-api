@@ -260,28 +260,7 @@ router.patch('/editar-prestatario/:prospectId', async (req, res, next) => {
 	}
 })
 
-router.get('/reporte',(req, res, next)=>{
 
-	DB.query(`
-	SELECT 
-	[clientapplications].[estatus],
-	COUNT([clientapplications].[prospectId]) as total
-	FROM [prospects] JOIN [borrowers] 
-	ON [prospects].[prospectId] = [borrowers].[prospectId] 
-	JOIN [clientapplications]
-	ON [clientapplications].[prospectId] = [borrowers].[prospectId]
-	group by [clientapplications].[estatus]
-	order by [estatus]
-	`,{
-					type: QueryTypes.SELECT
-	})
-	.then((result)=>{
-		return res.status(200).json({
-			data: result
-		})
-	})
-	.catch(()=>next(err))
-})
 
 module.exports = router;
 
