@@ -20,8 +20,8 @@ router.get('/lista-prestatarios', (req, res, next) => {
          [clientapplications].[prospectId],
          [prospects].[nombre],
          [prospects].[apellidoPaterno],
-         [prospects].[apellidoMaterno]
-         
+         [prospects].[apellidoMaterno],
+         [clientapplications].[estatus]
         FROM
          [borrowers] JOIN [prospects]  ON [borrowers].[prospectId] = [prospects].[prospectId] 
          JOIN [clientapplications] ON [borrowers].[prospectId] = [clientapplications].[prospectId]
