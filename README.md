@@ -4,6 +4,9 @@ Este proyecto fue realizado con Express
 ## Liga del FronEnd
 https://github.com/MariaFernanda2502/maltia.git 
 
+## Liga de la documentación
+https://github.com/MariaFernanda2502/Documentacion-maltia.git
+
 ## Librerías utilizadas
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
