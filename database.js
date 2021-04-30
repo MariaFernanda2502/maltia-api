@@ -87,7 +87,8 @@ Report.belongsTo(Analyst, { foreignKey:'userAnalystId'});
 //Analyst.Reports = Analyst.hasMany(Report);
 
 //para hacer drop de las tablas antes del sync
-DB.sync({ force: true }) 
+//DB.sync({ force: true })
+DB.sync() 
     .then(() => {console.log(`Database & tables created!`)
     })
     .catch(err => console.error(err))
