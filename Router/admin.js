@@ -186,7 +186,6 @@ router.post('/asesores/crear', (req, res, next) => {
     Employee.create(req.body)
     .then((employee) => {
         Adviser.create({ userId: employee.userId })
-        console.log(employee.userId)
         .then((result) => {
             return res.status(201).json({
                 data: employee
@@ -266,11 +265,11 @@ router.patch('/editar/tiendas/:storeId', async (req, res, next) => {
 		let store = await Store.findByPk(storeId)
 
 		if(store){
-			await store.update(
-				body,
+            let newStore = await store.update(
+				body.data,
 			)
 			return res.status(200).json({
-				data: store
+				data: newStore
 			})
 		}
 		else{
@@ -288,7 +287,6 @@ router.patch('/editar/tiendas/:storeId', async (req, res, next) => {
 
 router.post('/singup', async (req, res, next) => {
     const { body } = req;
-    console.log('ADIOOOOOOOOOOOOOOOOS', req.body)
 
     try {
         let employee = await Employee.findOne({
