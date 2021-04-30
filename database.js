@@ -48,47 +48,46 @@ const Report = ReportModel(DB, Sequelize);
 // RELACIONES
 // adviser(1), user(1) HERENCIA
 Adviser.belongsTo(Employee, { foreignKey:'userId' });
-Employee.Adviser = Employee.hasOne(Adviser);
+//Employee.Adviser = Employee.hasOne(Adviser);
 
 // analyst(1), user(1) HERENCIA
 Analyst.belongsTo(Employee, { foreignKey:'userId' });
-Employee.Analyst = Employee.hasOne(Analyst);
+//Employee.Analyst = Employee.hasOne(Analyst);
 
 // prospect(*), adviser(1)
 Prospect.belongsTo(Adviser, { foreignKey:'userAdviserId' });
-Adviser.Prospects = Adviser.hasMany(Prospect);
+//Adviser.Prospects = Adviser.hasMany(Prospect);
 
 // prospect(*), store(1)
 Prospect.belongsTo(Store, { foreignKey:'storeId' });
-Store.Prospects = Store.hasMany(Prospect);
+//Store.Prospects = Store.hasMany(Prospect);
 
 // store(*), adviser(1)
 Store.belongsTo(Adviser, { foreignKey:'userAdviserId' });
-Adviser.Stores = Adviser.hasMany(Store); 
+//Adviser.Stores = Adviser.hasMany(Store); 
 
 // clientApplication(*), adviser(1)
 ClientApplication.belongsTo(Adviser, { foreignKey:'userAdviserId' });
-Adviser.ClientApplications = Adviser.hasMany(ClientApplication);
+//Adviser.ClientApplications = Adviser.hasMany(ClientApplication);
 
 // clientApplication(*), analyst(1)
 ClientApplication.belongsTo(Analyst, { foreignKey:'userAnalystId' });
-Analyst.ClientApplications = Analyst.hasMany(ClientApplication);
+//Analyst.ClientApplications = Analyst.hasMany(ClientApplication);
 
 // borrower(1), ClientApplication(1)
 ClientApplication.belongsTo(Borrower, { foreignKey:'prospectId' });
-Borrower.ClientApplication = Borrower.hasOne(ClientApplication);
+//Borrower.ClientApplication = Borrower.hasOne(ClientApplication);
 
 // borrower(1), prospect(1)
 Borrower.belongsTo(Prospect, { foreignKey:'prospectId' });
-Prospect.Borrower = Prospect.hasOne(Borrower, { foreignKey:'prospectId' });
+//Prospect.Borrower = Prospect.hasOne(Borrower, { foreignKey:'prospectId' });
 
 // analista(1), reportes(*)
 Report.belongsTo(Analyst, { foreignKey:'userAnalystId'});
-Analyst.Reports = Analyst.hasMany(Report);
+//Analyst.Reports = Analyst.hasMany(Report);
 
-
-// DB.sync({ force: true }) para hacer drop de las tablas antes del sync
-DB.sync()
+//para hacer drop de las tablas antes del sync
+DB.sync({ force: true }) 
     .then(() => {console.log(`Database & tables created!`)
     })
     .catch(err => console.error(err))
